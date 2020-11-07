@@ -1,28 +1,25 @@
 import math, random
-b, r = 0, 0
 
+result, r = 0, 0
+inputs = [1, 0, 0]
+outputs = 1
+weights = [random.random() for i in range(len(inputs))]
 
 def sigmoid(x):
-    return 1 / (1 + math.exp(-x))
-
-inputs = [0, 1, 0]
-
-
-weights = [random.random() for i in range(len(inputs))]  # weights = [21151, 21151, 21151]
-
-for i in range(200000):
-    outputs = sigmoid(1)
-    e = 1 - outputs
-    r = e * (outputs * e)
-    r += r
+    return 1/(1 + math.exp(-x))
 
 for i in range(len(weights)):
-    weights[i] += r * 200000
+    result += weights[i] * outputs
+for i in range(10000):
+    o = sigmoid(result)
+    e = outputs - o
+    r += e * o * (1 - o)
+
+for i in range(len(weights)):
+    weights[i] += r * 10000
 print(weights)
 
 
 for i in range(len(inputs)):
-    a = (inputs[i] * weights[i])
-    b += a
-
-print(math.floor(sigmoid(b)))
+    result += inputs[i] * weights[i]
+print(round(sigmoid(result)))
