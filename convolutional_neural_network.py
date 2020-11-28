@@ -1,4 +1,4 @@
-import random
+import random, numpy as np
 
 input_list = []
 filter = []
@@ -51,3 +51,8 @@ for i in multiplied_matrices:  # вывод результата
     for il in i:
         str1 += str(il) + " "
     print(str1)
+
+a = np.array(filter2)  # с использованием numpy
+b = np.array(input_list)
+c = a * b
+print(c)
