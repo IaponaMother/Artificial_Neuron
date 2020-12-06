@@ -1,4 +1,4 @@
-import random, numpy as np
+import random, numpy as np, math
 
 input_list = []
 filter = []
@@ -6,11 +6,12 @@ filter2 = []
 multiplied_matrices = []
 list = []
 r = 0
+a = int(input("введите количество строк в матрице: "))
+b = int(input("введите количество столбцов в матрице: "))
 
-
-for i in range(4):  # создание первой матрицы
+for i in range(a):  # создание первой матрицы
     input_list.append([])
-    for j in range(4):
+    for j in range(b):
         input_list[i].append(random.randint(0, 10))
 
 for i in input_list:  # вывод первой матрицы
@@ -32,14 +33,21 @@ for i in filter:  # вывод второй матрицы
         str1 += str(il) + " "
     print(str1)
 
+
 for i in filter:
-    a = i * 2
-    filter2.append(a)
-filter2 = filter2 * 2
+    c = i * math.ceil(b / 2)
+    filter2.append(c)
+filter2 = filter2 * math.ceil(a / 2)
+
+if a % 2 != 0:
+    filter2 = np.delete(filter2, 0, axis=0)
+
+if b % 2 != 0:
+    filter2 = np.delete(filter2, 0, axis=1)
 
 
-for i in range(4):  # перемножение элементов матриц
-    for il in range(4):
+for i in range(a):  # перемножение элементов матриц
+    for il in range(b):
         r = input_list[i][il] * filter2[i][il]
         list.append(r)
     multiplied_matrices.append(list)
@@ -55,4 +63,5 @@ for i in multiplied_matrices:  # вывод результата
 a = np.array(filter2)  # с использованием numpy
 b = np.array(input_list)
 c = a * b
+print("с использованием numpy: ", "\n")
 print(c)
