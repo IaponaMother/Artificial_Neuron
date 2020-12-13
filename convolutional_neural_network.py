@@ -1,67 +1,35 @@
-import random, numpy as np, math
+import numpy as np
 
-input_list = []
-filter = []
-filter2 = []
-multiplied_matrices = []
-list = []
-r = 0
-a = int(input("введите количество строк в матрице: "))
-b = int(input("введите количество столбцов в матрице: "))
+length = int(input("введите длину массива: "))  # создание матрицы
+width = int(input("введите ширину массива: "))
+input_list = np.random.randint(0, 10, (width, length))
+print(input_list)
+input_list = np.insert(input_list, 0, values=0, axis=1)  # добаление строк и столбцов в матрицу
+input_list = np.insert(input_list, 0, values=0, axis=0)
+input_list = np.insert(input_list, length + 1, values=0, axis=1)
+input_list = np.insert(input_list, width + 1, values=0, axis=0)
+print(input_list)
 
-for i in range(a):  # создание первой матрицы
-    input_list.append([])
-    for j in range(b):
-        input_list[i].append(random.randint(0, 10))
+filter = np.random.randint(0, 2, (3, 3))  # создание фильтра
+print(filter)
 
-for i in input_list:  # вывод первой матрицы
-    str1 = " "
-    for il in i:
-        str1 += str(il) + " "
-    print(str1)
+output_list1 = []
+output_list2 = []
+i = 1
+j = 1
+for i in range(width + 1):  # разделяем матрицу на части
+    for j in range(length + 1):
+        v = input_list[i - 1:i + 2, j - 1:j + 2]
+        output_list1.append(v)
+    i += 1
+    j += 1
 
+for il in output_list1:  # вывод частей матрицы
+    print(il)
 
-for i in range(2):  # создание второй матрицы(фильтра)
-    filter.append([])
-    for j in range(2):
-        filter[i].append(random.randint(0, 1))
+for il in output_list1:  # свертка матрицы(перемножение и сложение частей матрицы и фильтра)
+    if np.shape(il) == (3, 3):
+        r = np.sum(il * filter)
+        output_list2.append(r)
 
-print("\n")
-for i in filter:  # вывод второй матрицы
-    str1 = " "
-    for il in i:
-        str1 += str(il) + " "
-    print(str1)
-
-
-for i in filter:
-    c = i * math.ceil(b / 2)
-    filter2.append(c)
-filter2 = filter2 * math.ceil(a / 2)
-
-if a % 2 != 0:
-    filter2 = np.delete(filter2, 0, axis=0)
-
-if b % 2 != 0:
-    filter2 = np.delete(filter2, 0, axis=1)
-
-
-for i in range(a):  # перемножение элементов матриц
-    for il in range(b):
-        r = input_list[i][il] * filter2[i][il]
-        list.append(r)
-    multiplied_matrices.append(list)
-    list = []
-
-print("\n")
-for i in multiplied_matrices:  # вывод результата
-    str1 = " "
-    for il in i:
-        str1 += str(il) + " "
-    print(str1)
-
-a = np.array(filter2)  # с использованием numpy
-b = np.array(input_list)
-c = a * b
-print("с использованием numpy: ", "\n")
-print(c)
+print(np.array_split(output_list2, width, axis=0))  # вывод получившейся матрицы
