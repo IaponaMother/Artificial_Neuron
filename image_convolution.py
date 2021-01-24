@@ -75,6 +75,6 @@ Blue = np.array_split(output_list_blue, width, axis=0)
 
 rgb = [Red, Green, Blue]
 res = np.dstack(rgb)
-img = Image.fromarray(res, 'RGB')
+img = Image.fromarray(res.astype(np.uint8), 'RGB')
 img.save('my.png')
 img.show()
